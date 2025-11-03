@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Button } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import "./HomePage.css";
 
 const HomePage: React.FC = () => {
@@ -99,12 +99,11 @@ const HomePage: React.FC = () => {
             >
               BeatMe
             </h1>
-            
+
             <p className="text-muted fs-5 mb-0">
               Guess the song, beat your friends!
             </p>
           </div>
-
           {/* Action Buttons */}
           <div className="d-grid gap-3">
             <Button

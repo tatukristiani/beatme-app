@@ -21,6 +21,9 @@ import { Game, RoundResult, Song } from "../../types";
 import "./GamePlayPage.css";
 import config from "../../config/config";
 import { webSocketService } from "../../services/webSocket/WebSocketService";
+import YouTubePreview, {
+  YouTubePreviewHandle,
+} from "../../components/YouTubePreview";
 
 interface LocationState {
   playerName: string;
@@ -48,7 +51,7 @@ const GamePlayPage: React.FC = () => {
   const location = useLocation();
   const state = location.state as LocationState;
 
-  const audioRef = useRef<AudioPlayer>(null);
+  const youtubeRef = useRef<YouTubePreviewHandle>(null);
 
   const [artistGuess, setArtistGuess] = useState("");
   const [songGuess, setSongGuess] = useState("");
@@ -73,9 +76,7 @@ const GamePlayPage: React.FC = () => {
 
   // Handle volume changes
   useEffect(() => {
-    if (audioRef.current && audioRef.current.audio.current) {
-      audioRef.current.audio.current.volume = volume / 100;
-    }
+    youtubeRef.current?.setVolume(volume);
   }, [volume]);
 
   // Fetch song data when game updates
@@ -88,7 +89,7 @@ const GamePlayPage: React.FC = () => {
         const songData = await gameApi.getSongData(currentSongId.toString());
         console.log("Fetched song data:", songData);
         setCurrentSong(songData.song);
-        setPreviewUrl(songData.song.audioUrl);
+        setPreviewUrl(songData.song.previewUrl);
         setIsPlaying(true);
       } catch (err) {
         console.error("Error fetching song data:", err);
@@ -194,9 +195,9 @@ const GamePlayPage: React.FC = () => {
     setIsReady(true);
     stop();
 
-    // Pause audio when answer is submitted
-    if (audioRef.current && audioRef.current.audio.current) {
-      audioRef.current.audio.current.pause();
+    // Pause YouTube player when answer is submitted
+    if (youtubeRef.current) {
+      youtubeRef.current.pause();
       setIsPlaying(false);
     }
 
@@ -212,11 +213,11 @@ const GamePlayPage: React.FC = () => {
   };
 
   const togglePlayPause = () => {
-    if (audioRef.current && audioRef.current.audio.current) {
+    if (youtubeRef.current) {
       if (isPlaying) {
-        audioRef.current.audio.current.pause();
+        youtubeRef.current.pause();
       } else {
-        audioRef.current.audio.current.play();
+        youtubeRef.current.play();
       }
       setIsPlaying(!isPlaying);
     }
@@ -382,18 +383,6 @@ const GamePlayPage: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Hidden Audio Player - just for playback control */}
-                  <div style={{ display: "none" }}>
-                    <AudioPlayer
-                      ref={audioRef}
-                      src={previewUrl || ""}
-                      autoPlay
-                      loop
-                      onPlay={handleAudioPlay}
-                      onPause={handleAudioPause}
-                    />
-                  </div>
-
                   {/* Custom Audio Controls */}
                   <div
                     className="mb-4 p-4 rounded-3"
@@ -439,7 +428,14 @@ const GamePlayPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-
+                  <YouTubePreview
+                    ref={youtubeRef}
+                    artist={currentSong?.artist || ""}
+                    title={currentSong?.title || ""}
+                    duration={game.settings.timePerSong}
+                    onPlay={handleAudioPlay}
+                    onPause={handleAudioPause}
+                  />
                   {/* Guess Form */}
                   <Form>
                     <Form.Group className="mb-3">

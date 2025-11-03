@@ -26,6 +26,9 @@ export const config = {
     minPlayers: 2,
     countdownDuration: 10,
   },
+  youtube: {
+    apiKey: process.env.REACT_APP_YOUTUBE_API_KEY || "",
+  }
 } as const;
 
 export default config;
