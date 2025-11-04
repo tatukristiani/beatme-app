@@ -1,12 +1,17 @@
-// YouTubePreview.tsx
-import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import config from "../config/config";
 
 interface YouTubePreviewProps {
   artist: string;
   title: string;
-  duration?: number; // seconds, default = 10
+  duration: number; // seconds, default = 10
   startAt?: number; // how many seconds to skip from start
   onPlay?: () => void;
   onPause?: () => void;
@@ -21,7 +26,7 @@ export interface YouTubePreviewHandle {
 const API_KEY = config.youtube.apiKey;
 
 const YouTubePreview = forwardRef<YouTubePreviewHandle, YouTubePreviewProps>(
-  ({ artist, title, duration = 10, startAt = 60, onPlay, onPause }, ref) => {
+  ({ artist, title, duration, startAt = 60, onPlay, onPause }, ref) => {
     const [videoId, setVideoId] = useState<string | null>(null);
     const playerRef = useRef<YouTubePlayer | null>(null);
 
@@ -79,11 +84,6 @@ const YouTubePreview = forwardRef<YouTubePreviewHandle, YouTubePreviewProps>(
       // Jump to specified startAt time
       playerRef.current.seekTo(startAt, true);
       playerRef.current.playVideo();
-
-      // Stop playback after {duration} seconds
-      setTimeout(() => {
-        playerRef.current?.stopVideo();
-      }, duration * 1000);
     };
 
     const onStateChange = (event: { data: number }) => {

@@ -20,7 +20,7 @@ export const config = {
       "Iskelmä",
       "Latin Music",
     ],
-    years: ["1970s", "1980s", "1990s", "2000s", "2010s", "2020s"],
+    years: ["1970", "1980", "1990", "2000", "2010", "2020"],
     timePerSongOptions: [15, 20, 30, 40, 60],
     songCountOptions: [5, 10, 15, 20],
     minPlayers: 2,

@@ -118,7 +118,7 @@ const GamePlayPage: React.FC = () => {
         const fetchedGame = await gameApi.getGame(gameId);
         console.log("Fetched game details:", fetchedGame);
 
-        if (fetchedGame.currentSong >= fetchedGame.songs.length) {
+        if (fetchedGame.currentSong >= fetchedGame.settings.songCount) {
           navigate(`/results/${gameId}`, {
             state: {
               playerName: state?.playerName,
