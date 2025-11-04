@@ -1,4 +1,3 @@
-// src/services/api/gameApi.ts
 import { apiClient } from "./apiClient";
 import {
   Game,
@@ -36,11 +35,6 @@ export const gameApi = {
   // Cancel a game
   cancelGame: async (gameId: string): Promise<void> => {
     return apiClient.delete(`/games/${gameId}`);
-  },
-
-  // Leave a game
-  leaveGame: async (gameId: string, playerId: string): Promise<void> => {
-    return apiClient.delete(`/games/${gameId}/players/${playerId}`);
   },
 
   // Submit an answer

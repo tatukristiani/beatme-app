@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
-  Container,
   Row,
   Col,
   Card,
@@ -15,12 +14,7 @@ import { Game } from "../../types";
 import "./GameLobbyPage.css";
 import config from "../../config/config";
 import { webSocketService } from "../../services/webSocket/WebSocketService";
-
-interface LocationState {
-  playerName: string;
-  playerId: string;
-  isCreator: boolean;
-}
+import { LocationState } from "../../types";
 
 const GameLobbyPage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();

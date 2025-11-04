@@ -11,8 +11,8 @@ import config from "../config/config";
 interface YouTubePreviewProps {
   artist: string;
   title: string;
-  duration: number; // seconds, default = 10
-  startAt?: number; // how many seconds to skip from start
+  duration: number;
+  startAt?: number;
   onPlay?: () => void;
   onPause?: () => void;
 }
@@ -20,13 +20,13 @@ interface YouTubePreviewProps {
 export interface YouTubePreviewHandle {
   play: () => void;
   pause: () => void;
-  setVolume: (volume: number) => void; // 0-100
+  setVolume: (volume: number) => void;
 }
 
 const API_KEY = config.youtube.apiKey;
 
 const YouTubePreview = forwardRef<YouTubePreviewHandle, YouTubePreviewProps>(
-  ({ artist, title, duration, startAt = 60, onPlay, onPause }, ref) => {
+  ({ artist, title, startAt = 60, onPlay, onPause }, ref) => {
     const [videoId, setVideoId] = useState<string | null>(null);
     const playerRef = useRef<YouTubePlayer | null>(null);
 
@@ -43,7 +43,7 @@ const YouTubePreview = forwardRef<YouTubePreviewHandle, YouTubePreviewProps>(
       },
     }));
 
-    // Step 1: Fetch videoId from YouTube API
+    // Fetch videoId from YouTube API
     useEffect(() => {
       const fetchVideo = async () => {
         try {
@@ -63,7 +63,7 @@ const YouTubePreview = forwardRef<YouTubePreviewHandle, YouTubePreviewProps>(
       if (artist && title) fetchVideo();
     }, [artist, title]);
 
-    // Step 2: Player options (compliant with YouTube branding rules)
+    // Player options
     const playerOptions = {
       height: "0", // Hidden video (audio only)
       width: "0",
@@ -77,7 +77,7 @@ const YouTubePreview = forwardRef<YouTubePreviewHandle, YouTubePreviewProps>(
       },
     };
 
-    // Step 3: Handle player events
+    // Handle player events
     const onReady = (event: { target: YouTubePlayer }) => {
       playerRef.current = event.target;
 

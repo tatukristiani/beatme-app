@@ -94,23 +94,6 @@ export interface FinalPlayerScore {
   averageTime: number;
 }
 
-// WebSocket Types
-export enum WSEvent {
-  PLAYER_JOINED = "player_joined",
-  PLAYER_LEFT = "player_left",
-  GAME_STARTED = "game_started",
-  GAME_STATUS = "game_status",
-  PLAYER_READY = "player_ready",
-  ROUND_COMPLETE = "round_complete",
-  GAME_COMPLETE = "game_complete",
-  ERROR = "error",
-}
-
-export interface WSMessage {
-  event: WSEvent;
-  data: any;
-}
-
 // API Response Types
 export interface ApiResponse<T = any> {
   success: boolean;
@@ -135,10 +118,6 @@ export interface CreateGameRequest {
   years?: string[];
 }
 
-export interface JoinGameRequest {
-  playerName: string;
-}
-
 export interface SubmitAnswerRequest {
   gameId: string;
   playerId: string;
@@ -150,33 +129,25 @@ export interface SubmitAnswerRequest {
   timestamp: Date;
 }
 
-export interface PlayerJoinedEvent {
-  event: "playerJoined";
-  payload: { game: Game };
-}
-
-export interface StartGameEvent {
-  event: "startGame";
-  payload: { success: boolean; message?: string };
-}
-
-export interface AnswerSubmittedEvent {
-  event: "answerSubmitted";
-  payload: { game: Game };
-}
-
-export interface AllPlayersReadyEvent {
-  event: "allPlayersReady";
-  payload: { result: RoundResult | null };
-}
-
-export interface AnswerSubmitPayload {
-  gameId: string;
+export interface LocationState {
+  playerName: string;
   playerId: string;
+  isCreator: boolean;
 }
 
-export type ServerEvent =
-  | PlayerJoinedEvent
-  | StartGameEvent
-  | AnswerSubmittedEvent
-  | AllPlayersReadyEvent;
+export interface Player {
+  id: string;
+  name: string;
+  score: number;
+  isReady: boolean;
+}
+
+export interface AnswerSubmittedPayload {
+  game: Game;
+}
+
+export interface AllPlayersReadyPayload {
+  result: RoundResult;
+}
+
+

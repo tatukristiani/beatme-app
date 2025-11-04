@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import {
-  Container,
   Row,
   Col,
   Card,
@@ -24,26 +22,12 @@ import { webSocketService } from "../../services/webSocket/WebSocketService";
 import YouTubePreview, {
   YouTubePreviewHandle,
 } from "../../components/YouTubePreview";
-
-interface LocationState {
-  playerName: string;
-  playerId: string;
-}
-
-interface Player {
-  id: string;
-  name: string;
-  score: number;
-  isReady: boolean;
-}
-
-interface AnswerSubmittedPayload {
-  game: Game;
-}
-
-interface AllPlayersReadyPayload {
-  result: RoundResult;
-}
+import {
+  LocationState,
+  AllPlayersReadyPayload,
+  AnswerSubmittedPayload,
+  Player,
+} from "../../types";
 
 const GamePlayPage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();

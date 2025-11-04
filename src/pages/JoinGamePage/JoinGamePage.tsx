@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Alert } from "react-bootstrap";
+import { Card, Form, Button, Alert } from "react-bootstrap";
 import { gameApi } from "../../services/api/gameApi";
 import "./JoinGamePage.css";
 
